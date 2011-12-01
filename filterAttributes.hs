@@ -7,6 +7,9 @@ module Main where
 	import IO
 	import qualified System.Exit as SE
 
+	-- ----------------------------------------------------------------------------------
+	
+	-- ----------------------------------------------------------------------------------
 	data Flag = AcceptPrefix String | RejectPrefix String | AcceptSuffix String | RejectSuffix String |
 							AcceptPrefixFile FilePath | RejectPrefixFile FilePath | AcceptSuffixFile FilePath | RejectSuffixFile FilePath |
 							Help
@@ -28,7 +31,7 @@ module Main where
 			RejectPrefixFile file -> aux flags ap rp as rs apf (file:rpf) asf rsf unknown
 			AcceptSuffixFile file -> aux flags ap rp as rs apf rpf (file:asf) rsf unknown
 			RejectSuffixFile file -> aux flags ap rp as rs apf rpf asf (file:rsf) unknown
-			_ -> aux flags ap rp asf rsf apf rpf asf rsf (flag:unknown)
+			_ -> aux flags ap rp as rs apf rpf asf rsf (flag:unknown)
 		aux [] ap rp as rs apf rpf asf rsf unknown = (ap, rp, as, rsf, apf, rpf, asf, rsf, unknown)
 
 	getAcceptPrefixes :: FixCollection -> [String]
