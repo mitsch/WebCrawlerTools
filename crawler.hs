@@ -11,7 +11,7 @@ module Crawler where
 	import Control.Monad
 	import System.IO
 	import Domain
-	import Control.Exception
+	import System.IO.Error
 
 	data Manager = Manager {seedChannel :: Chan String,
 													visitedPages :: MVar (Set.Set String),
@@ -54,6 +54,9 @@ module Crawler where
 
 	crawlPage :: Manager -> String -> IO ()
 	crawlPage manager seed = do
+		connectionTry <- try $ simpleHTTP(getRequest seed)
+		case connectionTry of
+			Left exception ->
 		result <- simpleHTTP (getRequest seed)
 		case result of
 			Right response -> do
